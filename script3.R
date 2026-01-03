@@ -87,6 +87,35 @@ df_midterm2 <-readRDS("df_midterm2.rds")
 df_midterm2
 
 
+
+
+# ----------------------
+# 변수명 바꾸기
+# ----------------------
+
+df_raw <-data.frame(var1 = c(1,2,4), var2 = c(2,4,2))
+df_raw
+
+# 패키지 설치
+install.packages("dplyr")
+library(dplyr)
+df_new <-df_raw        
+df_new
+df_new <-rename(df_new, v2  = var2) #새변수명 = 기존변수명
+df_new
+df_new <- rename(df_new, v1 = var1)
+df_new
+
+
+# 파생변수 생성하기
+
+df_new$v3_sum <- df_new$v1 + df_new$v2
+df_new
+
+
+
+
+
 # =======================================
 # 데이터 파악하기
 # =======================================
@@ -115,20 +144,32 @@ summary(mpg)
 
 ?mpg
 
+mpg$total <- (mpg$cty + mpg$hwy)/2
+head(mpg)
 
-# ----------------------
-# 변수명 바꾸기
-# ----------------------
+mean(mpg$total)
 
-df_raw <-data.frame(var1 = c(1,2,4), var2 = c(2,4,2))
-df_raw
+?mpg
 
-# 패키지 설치
-install.packages("dplyr")
-library(dplyr)
-df_new <-df_raw        
-df_new
-df_new <-rename(df_new, v2  = var2) #새변수명 = 기존변수명
-df_new
-df_new <- rename(df_new, v1 = var1)
-df_new
+
+summary(mpg$total)
+hist(mpg$total)
+
+
+#합격판정 변수 만들기
+ifelse(mpg$total >= 20, "pass","fail")
+dim(mpg)
+table(mpg$test)
+qplot(mpg$test) #값의개수를 막대의 길이로 표현
+
+
+
+mpg$grade <- ifelse(mpg$total >=30,"A",
+                    ifelse(mpg$total >=20,"B","c"))
+head(mpg)
+table(mpg$grade)
+qplot(mpg$grade)
+
+
+
+# ----------------
