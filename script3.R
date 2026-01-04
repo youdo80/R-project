@@ -172,4 +172,130 @@ qplot(mpg$grade)
 
 
 
+
+
+
 # ----------------
+
+
+
+#########################################
+#########################################
+#########################################
+#########################################
+#########################################
+#########################################
+
+
+# 데이터 전처리
+
+#########################################
+#########################################
+#########################################
+
+install.packages("dplyr")
+??dplyr
+
+df_iris <- readRDS("iris.rds")
+df_iris
+head(df_iris)
+
+
+library(dplyr)
+df_iris %>% filter(Sepal.Length == 6.0)
+
+# 두 단계로 조건을 순차적으로 적용합니다.
+# 연속 필터링은 조건이 많거나 중간 결과를 확인하고 싶을 때 유용
+# 성능차이가 있음음
+df_iris %>% filter(Species == "versicolor") %>% filter(Sepal.Length == 5.0) %>% glimpse()
+
+#논리 연산자 &를 사용해 두 조건을 동시에 적용.
+df_iris %>% filter(Species =="versicolor" & Sepal.Length ==5.0)
+df_iris %>% filter(Species =='versicolor' | Sepal.Length == 5.0) %>% dim()
+
+# %in% 매칭연산자자
+df_iris %>% filter(Sepal.Length %in% c(5.0, 6.0))
+
+
+iris_length1 <- df_iris %>% filter(Species =='setosa')
+iris_length2 <- df_iris %>% filter(Species == 'virginica')
+
+mean(iris_length1$Sepal.Length)
+mean(iris_length2$Sepal.Length)
+
+
+# 산술연산자
+#몫
+4%/%2
+#나머지
+5%%2
+5^2
+5**2
+5**3
+
+# --------------------------
+# 6-2 필요한 변수만 추출하기
+# --------------------------
+
+library(dplyr)
+df_iris
+head(df_iris)
+df_iris %>% select(Species)
+df_iris %>% select(Sepal.Length,Species)
+df_iris %>% select(-Species)
+
+
+df_iris %>% filter(Sepal.Length>6.5) %>% select(Species)
+
+
+df_iris %>%
+  filter(Sepal.Width>4.0) %>%
+  select(Species)
+
+
+df_iris %>%
+  filter(Sepal.Width>4.0) %>%
+  select(Species)
+
+
+df_iris %>% filter(Sepal.Length>6.5) %>% select(Species) %>% head(10)
+
+
+# ------------------------
+# 6-4 순서대로 정렬하기
+# -----------------------
+
+df_iris %>% 
+  arrange(Sepal.Length) %>% #오름차순정량
+  head(10)
+
+df_iris %>%
+  arrange(desc(Sepal.Length)) %>%
+  head(10)
+
+
+df_iris %>%
+  arrange(Sepal.Length,Sepal.Width) %>%
+  head(10)
+
+
+# ------------------------
+# 6-5 파생변수 추가하기
+# -----------------------
+
+df_iris %>%
+  mutate(Sepal.total = Sepal.Length * Sepal.Width) %>%
+  head
+
+# 벡터(또는 변수)의 값 빈도수를 집계해서 도수분포표를 만듭니다.
+# 데이터프레임에 변수를 추가하지 않음
+# mpg$test <- ifelse(mpg$total >= 20, "pass", "fail") table(mpg$test)
+
+
+head(df_iris,10)
+
+
+# 실제 변수에 넣어준것임임
+df_iris <- mutate(df_iris, test = ifelse(Sepal.Length >5.1,"pass","fail"))
+head(df_iris)
+df_iris <- mutate(df_iris, Sepal.total = Sepal.Length * Sepal.Width)
