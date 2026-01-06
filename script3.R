@@ -299,3 +299,37 @@ head(df_iris,10)
 df_iris <- mutate(df_iris, test = ifelse(Sepal.Length >5.1,"pass","fail"))
 head(df_iris)
 df_iris <- mutate(df_iris, Sepal.total = Sepal.Length * Sepal.Width)
+
+
+
+# ---------------------
+# 6-2 집단별로 요약하기
+# ----------------------
+
+df_iris
+dim(df_iris)
+
+
+library(dplyr)
+df_iris %>% summarise(mean_math=mean(Sepal.Length))
+
+
+df_iris %>% 
+  group_by(Species) %>%
+  summarise(mean_math = mean(Sepal.Length))
+
+
+
+df_iris %>%
+  group_by(Species) %>%
+  summarise(mean_math = mean(Sepal.Length),
+            sum_math = sum(Sepal.total),
+            n = n())
+#n() 행수 빈도수 구하기
+
+
+
+df_iris %>%
+  group_by(Species,test) %>%
+  summarize(mean_sepal_length = mean(Sepal.Length))
+
